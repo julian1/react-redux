@@ -1,0 +1,25 @@
+{
+  "name": "whoot",
+  "version": "0.0.1",
+  "description": "A simple app in React",
+  "author": "Julian1",
+  "repository": "https://github.com/julian1/react-tests",
+  "readme": "https://github.com/julian1/react-tests/blob/master/README.md",
+  "license": "Apache 2",
+
+  "devDependencies": {
+
+    "redux": "^3.0.2",
+    "react": "^0.13.3",
+    "react-redux": "^3.1.0",
+    "bootstrap": "^3.3.5",
+
+    "gulp": "^3.8.11",
+    "browserify": "^11.1.0",
+    "vinyl-source-stream": "^1.1.0",
+    "reactify": "^1.1.1",
+
+    "express": "4.13.3"
+
+  }
+}
