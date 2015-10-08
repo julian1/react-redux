@@ -59,6 +59,7 @@ const Inbox = React.createClass({
   }
 })
 
+// ok, lets try to fatten the model up. 
 
 function mapStateToProps(state)  {
   return {
@@ -70,9 +71,6 @@ var App = connect(
   mapStateToProps
 )(Inbox);
 
-//    { function () {
- //     return ( <App/> );
-  //  }}
 
 
 React.render((
