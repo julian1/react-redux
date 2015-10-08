@@ -16,8 +16,8 @@
 
     "gulp": "^3.8.11",
     "browserify": "^11.1.0",
+    "babelify": "^6.3.0",
     "vinyl-source-stream": "^1.1.0",
-    "reactify": "^1.1.1",
 
     "express": "4.13.3"
 

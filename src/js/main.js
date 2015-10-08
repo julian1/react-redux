@@ -6,7 +6,7 @@ var React = require('react');
 var ReactRedux = require('react-redux');
 
 // var $ = require('jquery');
-// import { createStore } from 'redux'; //babelify
+import { createStore } from 'redux'; //babelify
 
 
 
@@ -24,7 +24,7 @@ function counter(state, action) {
 }
 
 
-var store = Redux.createStore(counter, 0 );
+var store = createStore(counter, 0 );
 
 store.subscribe( function() {
     console.log(store.getState())
@@ -71,11 +71,14 @@ var App = ReactRedux.connect(
   mapStateToProps
 )(Inbox);
 
+//    { function () {
+ //     return ( <App/> );
+  //  }}
+
+
 React.render((
   <ReactRedux.Provider store={store}>
-    { function () {
-      return ( <App/> );
-    }}
+     {() => <App />}
   </ReactRedux.Provider>
 ), document.body)
 

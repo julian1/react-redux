@@ -1,8 +1,12 @@
 
 var gulp = require('gulp');
-var reactify = require('reactify');
+// var reactify = require('reactify');
 var browserify = require('browserify');
 var source = require("vinyl-source-stream");
+
+var babel = require('babelify');
+
+
 
 // i suspect it's only running reactify on .jsx files.
 // need to modify...
@@ -26,7 +30,7 @@ var deps = ['react', 'redux', 'react-redux' ];
 
 gulp.task('vendor', function(){
   var b = browserify();
-  b.transform({ global: true }, reactify);
+  b.transform({ global: true }, babel );
   b.require(deps);
   return b.bundle()
     // .on('error', handleErrors)
@@ -38,7 +42,7 @@ gulp.task('vendor', function(){
 
 gulp.task('bundle', function(){
   var b = browserify();
-  b.transform({ global: true }, reactify); // use the reactify transform
+  b.transform({ global: true }, babel ); // use the reactify transform
   b.add('./src/js/main.js');
   b.external(deps);
   return b.bundle()
