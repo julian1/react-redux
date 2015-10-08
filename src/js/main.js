@@ -15,7 +15,12 @@ function counter(state, action) {
   switch (action.type) {
   case 'INCREMENT':
     // how do we perform an 'update with', like 
-    return { value : state.value + 1 };
+  //  return { value : state.value + 1 };
+
+    return Object.assign({}, state, {
+      value: state.value + 1
+    });
+
   case 'DECREMENT':
     return state ;
   default:
@@ -73,7 +78,7 @@ const Inbox = React.createClass({
 var App = connect(
   //mapStateToProps
   // (state) => ({ value: state })
-  (state) => (state)
+  (state) => state
 )(Inbox);
 
 
