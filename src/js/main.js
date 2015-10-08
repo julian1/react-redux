@@ -61,14 +61,17 @@ const Inbox = React.createClass({
 
 // ok, lets try to fatten the model up. 
 
-function mapStateToProps(state)  {
+
+/*function mapStateToProps(state)  {
   return {
     value: state
   };
-}
+}*/
+
 
 var App = connect(
-  mapStateToProps
+  //mapStateToProps
+  (state) => ({ value: state })
 )(Inbox);
 
 
