@@ -14,16 +14,17 @@ import { Provider, connect } from "react-redux";
 function counter(state, action) {
   switch (action.type) {
   case 'INCREMENT':
-    return state + 1;
+    // how do we perform an 'update with', like 
+    return { value : state.value + 1 };
   case 'DECREMENT':
-    return state - 1;
+    return state ;
   default:
     return state;
   }
 }
 
 
-var store = createStore(counter, 0 );
+var store = createStore(counter, ({ value: 0 }) );
 
 store.subscribe( function() {
     console.log(store.getState())
@@ -71,7 +72,8 @@ const Inbox = React.createClass({
 
 var App = connect(
   //mapStateToProps
-  (state) => ({ value: state })
+  // (state) => ({ value: state })
+  (state) => (state)
 )(Inbox);
 
 
