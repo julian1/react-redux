@@ -1,12 +1,11 @@
 
 // ok, lets try to get it running in the browser
 
-var Redux = require('redux');  //import { createStore } from 'redux';
-var React = require('react');
-var ReactRedux = require('react-redux');
+ var React = require('react');
+// import { createClass } from 'react';
 
-// var $ = require('jquery');
-import { createStore } from 'redux'; //babelify
+import { createStore } from 'redux';
+import { Provider, connect } from "react-redux";
 
 
 
@@ -67,7 +66,7 @@ function mapStateToProps(state)  {
   };
 }
 
-var App = ReactRedux.connect(
+var App = connect(
   mapStateToProps
 )(Inbox);
 
@@ -77,9 +76,9 @@ var App = ReactRedux.connect(
 
 
 React.render((
-  <ReactRedux.Provider store={store}>
+  <Provider store={store}>
      {() => <App />}
-  </ReactRedux.Provider>
+  </Provider>
 ), document.body)
 
 
