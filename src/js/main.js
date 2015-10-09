@@ -29,7 +29,10 @@ function counter(state, action) {
 }
 
 
-var store = createStore(counter, ({ value: 0 }) );
+var store = createStore(counter, (
+  { value: 0 ,
+    inputHandler : (a => console.log("my handler " + a))
+  }) );
 
 store.subscribe( function() {
     // console.log(store.getState())
@@ -56,13 +59,15 @@ store.dispatch({ type: 'WHOOT' });
 // ok, lets try to fatten the model up. 
 // should try to upgrade to react 0.14, which has support for refs  
 
+//        <input onChange={ a => this.props.inputHandler a console.log( 'whoot ' + a.target.value ) } />  
+
 const Inbox = React.createClass({
   render() {
     return (
       <div>
         <h2>Inbox</h2>
         <h2>{this.props.value || "Welcome to your Inbox"}</h2>
-        <input onChange={ a => console.log( 'whoot ' + a.target.value ) } />  
+        <input onChange={ a => this.props.inputHandler(a.target.value) } />  
       </div>
     )   
   }
