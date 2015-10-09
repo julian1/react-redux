@@ -1,6 +1,8 @@
 #### redux tests
 
 
+es6, gulp, jsx
+
 ```
 npm install
 
