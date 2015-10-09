@@ -65,11 +65,10 @@ store.dispatch({ type: 'WHOOT' });
 /*
   where do the action creators go? 
     in the react component 
-    on the store?? (can be dynamic)
+    call a function on the store that does the dispatch?? (can be dynamic)
     file scope
-
     or even this.props.dispatch, no because we'd have to pass it down in everything...
-
+    
 */
 
 const Inbox = React.createClass({
