@@ -8,6 +8,7 @@ import { createStore } from 'redux';
 import { Provider, connect } from "react-redux";
 
 
+import { Button, Alert } from 'react-bootstrap';
 
 
 // function counter(state = 0, action) {
@@ -27,7 +28,6 @@ function counter(state, action) {
     return state;
   }
 }
-
 
 var store = createStore(counter, (
   { value: 0 ,
@@ -59,15 +59,24 @@ store.dispatch({ type: 'WHOOT' });
 // ok, lets try to fatten the model up. 
 // should try to upgrade to react 0.14, which has support for refs  
 
-//        <input onChange={ a => this.props.inputHandler a console.log( 'whoot ' + a.target.value ) } />  
+// <input onChange={ a => this.props.inputHandler a console.log( 'whoot ' + a.target.value ) } />  
+
+//  <Button bsStyle="primary" bsSize="medium">Medium button</Button>
 
 const Inbox = React.createClass({
   render() {
     return (
       <div>
-        <h2>Inbox</h2>
-        <h2>{this.props.value || "Welcome to your Inbox"}</h2>
-        <input onChange={ a => this.props.inputHandler(a.target.value) } />  
+        <div>
+          <h2>Inbox</h2>
+          <h2>{this.props.value || "Welcome to your Inbox"}</h2>
+        </div>
+        <div>
+          <input onChange={ a => this.props.inputHandler(a.target.value) } />  
+        </div>
+        <div>
+          <Button bsStyle="primary" bsSize="medium"  onClick={ () => console.log("clicked") } >Medium button</Button>
+        </div>
       </div>
     )   
   }
