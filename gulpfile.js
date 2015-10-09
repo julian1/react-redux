@@ -16,17 +16,7 @@ var babel = require('babelify');
 // http://christianalfoni.github.io/javascript/2014/08/15/react-js-workflow.html
 
 
-
-function handleErrors() {
-  var args = Array.prototype.slice.call(arguments);
-  notify.onError({
-    title: "Compile Error",
-    message: "<%= error.message %>"
-  }).apply(this, args);
-  this.emit('end'); // Keep gulp from hanging on this task
-}
-
-var deps = ['react', 'redux', 'react-redux' ];
+var deps = ['react', 'redux', 'react-redux', 'react-bootstrap' ];
 
 gulp.task('vendor', function(){
   var b = browserify();
@@ -45,7 +35,6 @@ gulp.task('bundle', function(){
   b.transform({ global: true }, babel ); // use the reactify transform
   b.add('./src/js/main.js');
   b.external(deps);
-
 
   return b.bundle()
     // .on('error', handleErrors)
