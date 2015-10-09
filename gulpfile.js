@@ -45,8 +45,17 @@ gulp.task('bundle', function(){
   b.transform({ global: true }, babel ); // use the reactify transform
   b.add('./src/js/main.js');
   b.external(deps);
+
+
   return b.bundle()
     // .on('error', handleErrors)
+    .on('error', function(e) {
+      console.error(e.message);
+      console.error(e.loc);
+      console.error(e.codeFrame);
+      this.emit('end');
+    })
+
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./dist'));
 });
@@ -61,6 +70,7 @@ gulp.task('default',['bundle', 'copy']);
 
 
 gulp.task('watch', function() {
+    // we want to not exit when this fails...
     gulp.watch('src/js/*.js', ['default']);
 });
 
