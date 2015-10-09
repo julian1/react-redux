@@ -15,15 +15,13 @@ import { Button, Alert } from 'react-bootstrap';
 function counter(state, action) {
   switch (action.type) {
   case 'INCREMENT':
-    // how do we perform an 'update with', like 
-  //  return { value : state.value + 1 };
-
     return Object.assign({}, state, {
       value: state.value + 1
     });
-
-  case 'DECREMENT':
-    return state ;
+  case 'RESET':
+    return Object.assign({}, state, {
+      value: 0
+    });
   default:
     return state;
   }
@@ -33,6 +31,7 @@ var store = createStore(counter, (
   { value: 0 ,
     inputHandler : (a => console.log("my handler " + a))
   }) );
+
 
 store.subscribe( function() {
     // console.log(store.getState())
@@ -60,8 +59,18 @@ store.dispatch({ type: 'WHOOT' });
 // should try to upgrade to react 0.14, which has support for refs  
 
 // <input onChange={ a => this.props.inputHandler a console.log( 'whoot ' + a.target.value ) } />  
-
 //  <Button bsStyle="primary" bsSize="medium">Medium button</Button>
+
+//           <h2>{this.props.value || "Welcome to your Inbox"}</h2>
+/*
+  where do the action creators go? 
+    in the react component 
+    on the store?? (can be dynamic)
+    file scope
+
+    or even this.props.dispatch, no because we'd have to pass it down in everything...
+
+*/
 
 const Inbox = React.createClass({
   render() {
@@ -69,13 +78,13 @@ const Inbox = React.createClass({
       <div>
         <div>
           <h2>Inbox</h2>
-          <h2>{this.props.value || "Welcome to your Inbox"}</h2>
+          <h2>{this.props.value}</h2>
         </div>
         <div>
-          <input onChange={ a => this.props.inputHandler(a.target.value) } />  
+          <input onChange={ e => this.props.inputHandler(e.target.value) } />  
         </div>
         <div>
-          <Button bsStyle="success" bsSize="medium"  onClick={ () => console.log("clicked") } >Save</Button>
+          <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch({ type: 'RESET' }) } >Save</Button>
         </div>
       </div>
     )   
