@@ -75,7 +75,7 @@ const Inbox = React.createClass({
           <input onChange={ a => this.props.inputHandler(a.target.value) } />  
         </div>
         <div>
-          <Button bsStyle="primary" bsSize="medium"  onClick={ () => console.log("clicked") } >Medium button</Button>
+          <Button bsStyle="success" bsSize="medium"  onClick={ () => console.log("clicked") } >Save</Button>
         </div>
       </div>
     )   
