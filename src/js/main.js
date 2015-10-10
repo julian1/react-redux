@@ -9,8 +9,9 @@ import thunk from 'redux-thunk';
 import { Provider, connect } from "react-redux";
 
 import { Button, Alert } from 'react-bootstrap';
-// import { fetch } from 'react-fetch';
+// import { fetch, then } from 'whatwg-fetch';
 import 'whatwg-fetch';
+
 // require('es6-promise').polyfill();
 // fetch(...);
 
@@ -60,7 +61,7 @@ function doSomething(){
 
 doSomething();
 
-store.dispatch({ type: 'INITIAL_STATE' });
+store.dispatch({ type: 'INITIAL_STATE' });  // might be easier...
 store.dispatch({ type: 'INCREMENT' });
 store.dispatch({ type: 'INCREMENT' });
 store.dispatch({ type: 'DECREMENT' });
@@ -74,16 +75,15 @@ store.dispatch({ type: 'WHOOT' });
 // inline styles with javascript attributes are supported in react. could just use this.
 
 function asyncAction() {  
- //  store.dispatch({ type: 'RESET' })
-
   fetch('https://www.reddit.com/r/worldnews.json')
-  .then((response) => response.text())
-  .then((responseText) => {
-    console.log(responseText);
-  })
-  .catch((error) => {
-    console.warn(error);
-  });
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json.data.children[0].data.author);
+      // store.dispatch({ type: 'RESET' })
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
 }
 
 const Inbox = React.createClass({
