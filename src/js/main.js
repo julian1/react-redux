@@ -9,7 +9,10 @@ import thunk from 'redux-thunk';
 import { Provider, connect } from "react-redux";
 
 import { Button, Alert } from 'react-bootstrap';
-
+// import { fetch } from 'react-fetch';
+import 'whatwg-fetch';
+// require('es6-promise').polyfill();
+// fetch(...);
 
 // function counter(state = 0, action) {
 function counter(state, action) {
@@ -69,6 +72,18 @@ store.dispatch({ type: 'WHOOT' });
 // note that react-bootstrap is not an inline style approch.
 // inline styles with javascript attributes are supported in react. could just use this.
 
+function asyncAction() {  
+ //  store.dispatch({ type: 'RESET' })
+
+  fetch('https://www.reddit.com/r/worldnews.json')
+  .then((response) => response.text())
+  .then((responseText) => {
+    console.log(responseText);
+  })
+  .catch((error) => {
+    console.warn(error);
+  });
+}
 
 const Inbox = React.createClass({
   render() {
@@ -83,7 +98,7 @@ const Inbox = React.createClass({
         </div>
         <div>
           <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch({ type: 'RESET' }) } >Save</Button>
-          <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch( () => store.dispatch({ type: 'RESET' })) } >Async Save</Button>
+          <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch( asyncAction ) } >Async Save</Button>
         </div>
       </div>
     )   
