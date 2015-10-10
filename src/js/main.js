@@ -4,9 +4,9 @@
  var React = require('react');
 // import { createClass } from 'react';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { Provider, connect } from "react-redux";
-
 
 import { Button, Alert } from 'react-bootstrap';
 
@@ -27,11 +27,19 @@ function counter(state, action) {
   }
 }
 
+let initialState = (
+  { value: 0 ,
+    inputHandler : (a => console.log("my handler " + a))
+  });
+
+let store =  applyMiddleware(thunk)(createStore)(counter, initialState);
+
+/*
 var store = createStore(counter, (
   { value: 0 ,
     inputHandler : (a => console.log("my handler " + a))
   }) );
-
+*/
 
 store.subscribe( function() {
     // console.log(store.getState())
@@ -61,22 +69,6 @@ store.dispatch({ type: 'WHOOT' });
 // note that react-bootstrap is not an inline style approch.
 // inline styles with javascript attributes are supported in react. could just use this.
 
-// <input onChange={ a => this.props.inputHandler a console.log( 'whoot ' + a.target.value ) } />  
-//  <Button bsStyle="primary" bsSize="medium">Medium button</Button>
-
-//           <h2>{this.props.value || "Welcome to your Inbox"}</h2>
-/*
-  where do the action creators go? 
-    in the react component 
-    call a function on the store that does the dispatch?? (can be dynamic)
-    file scope
-    or even this.props.dispatch, no because we'd have to pass it down in everything...
-   
-    does this change if I want to do a http request? 
-
-    See,
-    https://github.com/rackt/redux/issues/533
-*/
 
 const Inbox = React.createClass({
   render() {
@@ -91,6 +83,7 @@ const Inbox = React.createClass({
         </div>
         <div>
           <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch({ type: 'RESET' }) } >Save</Button>
+          <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch( () => store.dispatch({ type: 'RESET' })) } >Async Save</Button>
         </div>
       </div>
     )   
@@ -108,11 +101,8 @@ const Inbox = React.createClass({
 // need an identity function...
 
 var App = connect(
-  //mapStateToProps
-  // (state) => ({ value: state })
   state => state
 )(Inbox);
-
 
 
 React.render((
@@ -120,6 +110,5 @@ React.render((
      {() => <App />}
   </Provider>
 ), document.body)
-
 
 

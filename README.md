@@ -3,6 +3,7 @@
 https://rackt.github.io/redux/
 http://teropa.info/blog/2015/09/10/full-stack-redux-tutorial.html
 https://github.com/rackt/redux/blob/master/examples/counter/actions/counter.js
+https://github.com/rackt/redux/issues/533
 
 es6, gulp, jsx
 
