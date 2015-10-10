@@ -58,6 +58,9 @@ store.dispatch({ type: 'WHOOT' });
 // ok, lets try to fatten the model up. 
 // should try to upgrade to react 0.14, which has support for refs  
 
+// note that react-bootstrap is not an inline style approch.
+// inline styles with javascript attributes are supported in react. could just use this.
+
 // <input onChange={ a => this.props.inputHandler a console.log( 'whoot ' + a.target.value ) } />  
 //  <Button bsStyle="primary" bsSize="medium">Medium button</Button>
 
@@ -68,7 +71,11 @@ store.dispatch({ type: 'WHOOT' });
     call a function on the store that does the dispatch?? (can be dynamic)
     file scope
     or even this.props.dispatch, no because we'd have to pass it down in everything...
-    
+   
+    does this change if I want to do a http request? 
+
+    See,
+    https://github.com/rackt/redux/issues/533
 */
 
 const Inbox = React.createClass({

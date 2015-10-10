@@ -7,6 +7,11 @@
   "readme": "https://github.com/julian1/react-tests/blob/master/README.md",
   "license": "Apache 2",
 
+  "unused": {
+    "gulp-uglify": "1.4.1", 
+    "fs": "0.0.2"
+  },
+
   "devDependencies": {
 
     "redux": "^3.0.2",
@@ -15,12 +20,12 @@
     "bootstrap": "^3.3.5",
     "react-bootstrap": "0.25.2",
 
+    "express": "4.13.3",
+
     "gulp": "^3.8.11",
     "browserify": "^11.1.0",
     "babelify": "^6.3.0",
-    "vinyl-source-stream": "^1.1.0",
-
-    "express": "4.13.3"
+    "vinyl-source-stream": "^1.1.0"
 
   }
 }
