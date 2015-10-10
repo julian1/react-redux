@@ -41,8 +41,10 @@ function counter(state, action) {
 }
 
 let initialState = (
-  { value: 0 ,
-    inputHandler : (a => console.log("my handler " + a))
+  { 
+    value: 0 ,
+    inputHandler : (a => console.log("my handler " + a)),
+    children: []
   });
 
 let store = applyMiddleware(thunk)(createStore)(counter, initialState);
@@ -105,6 +107,8 @@ const Inbox = React.createClass({
           <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch({ type: 'RESET' }) } >Save</Button>
           <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch( asyncAction ) } >Async Save</Button>
         </div>
+
+        <div>{this.props.children}</div>
       </div>
     )   
   }
