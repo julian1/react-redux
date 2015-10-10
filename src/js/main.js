@@ -60,6 +60,7 @@ function doSomething(){
 
 doSomething();
 
+store.dispatch({ type: 'INITIAL_STATE' });
 store.dispatch({ type: 'INCREMENT' });
 store.dispatch({ type: 'INCREMENT' });
 store.dispatch({ type: 'DECREMENT' });

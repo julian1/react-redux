@@ -15,8 +15,20 @@ var babel = require('babelify');
 // https://viget.com/extend/gulp-browserify-starter-faq
 // http://christianalfoni.github.io/javascript/2014/08/15/react-js-workflow.html
 
+/*
+    "react": "^0.13.3",
+    "redux": "^3.0.2",
+    "react-redux": "3.1.0",
+    "redux-thunk": "1.0.0",
+    
+    "whatwg-fetch": "0.9.0",
 
-var deps = ['react', 'redux', 'react-redux', 'react-bootstrap' ];
+    "bootstrap": "^3.3.5",
+    "react-bootstrap": "0.25.2",
+*/
+
+
+var deps = ['react', 'redux', 'react-redux', 'redux-thunk', 'whatwg-fetch', 'react-bootstrap' ];
 
 gulp.task('vendor', function(){
   var b = browserify();
