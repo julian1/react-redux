@@ -6,8 +6,9 @@ https://github.com/rackt/redux/blob/master/examples/counter/actions/counter.js
 https://github.com/rackt/redux/issues/533
 https://facebook.github.io/react-native/docs/network.html
 
-https://www.npmjs.com/package/redux-effects-fetcH
+https://www.npmjs.com/package/redux-effects-fetch
 https://www.npmjs.com/package/whatwg-fetch
+https://github.com/github/fetch
 
 es6, gulp, jsx, react, redux 
 

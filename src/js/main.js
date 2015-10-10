@@ -26,6 +26,11 @@ function counter(state, action) {
     return Object.assign({}, state, {
       value: 0
     });
+  case 'WHOOT':
+    console.log('got whoot');
+    return state;
+
+
   default:
     return state;
   }
@@ -36,19 +41,11 @@ let initialState = (
     inputHandler : (a => console.log("my handler " + a))
   });
 
-let store =  applyMiddleware(thunk)(createStore)(counter, initialState);
+let store = applyMiddleware(thunk)(createStore)(counter, initialState);
 
-/*
-var store = createStore(counter, (
-  { value: 0 ,
-    inputHandler : (a => console.log("my handler " + a))
-  }) );
-*/
 
-store.subscribe( function() {
-    // console.log(store.getState())
-  }
-);
+// store.subscribe( () => console.log(store.getState()) );
+
 
 // jquery async ? time
 // this doSomething function can be put on the state
@@ -65,7 +62,6 @@ store.dispatch({ type: 'INITIAL_STATE' });  // might be easier...
 store.dispatch({ type: 'INCREMENT' });
 store.dispatch({ type: 'INCREMENT' });
 store.dispatch({ type: 'DECREMENT' });
-store.dispatch({ type: 'WHOOT' });
 
 // ok, redux is neat.
 // ok, lets try to fatten the model up. 
@@ -74,11 +70,15 @@ store.dispatch({ type: 'WHOOT' });
 // note that react-bootstrap is not an inline style approch.
 // inline styles with javascript attributes are supported in react. could just use this.
 
+// actually we want to put it on the props...
+
 function asyncAction() {  
   fetch('https://www.reddit.com/r/worldnews.json')
     .then((response) => response.json())
     .then((json) => {
       console.log(json.data.children[0].data.author);
+
+      store.dispatch({ type: 'WHOOT', children: json.data.children });
       // store.dispatch({ type: 'RESET' })
     })
     .catch((error) => {
