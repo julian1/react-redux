@@ -27,7 +27,7 @@ function counter(state, action) {
       value: 0
     });
   case 'WHOOT':
-    console.log('got whoot' + action.children);
+    console.log( action.children);
     return Object.assign({}, state, {
       children: action.children
     });
@@ -92,8 +92,20 @@ function asyncAction() {
     });
 }
 
+
 const Inbox = React.createClass({
   render() {
+
+   var commentNodes = this.props.children.map( (comment, i) => {
+      return (
+        <div key={i}>
+          <span>{comment.data.title }</span>
+          <span> - </span>
+          <span>{comment.data.author}</span> 
+        </div>
+      );
+    });
+
     return (
       <div>
         <div>
@@ -108,7 +120,8 @@ const Inbox = React.createClass({
           <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch( asyncAction ) } >Async Save</Button>
         </div>
 
-        <div>{this.props.children}</div>
+        <div>{ commentNodes }</div>
+
       </div>
     )   
   }
