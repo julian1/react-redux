@@ -27,7 +27,11 @@ function counter(state, action) {
       value: 0
     });
   case 'WHOOT':
-    console.log('got whoot');
+    console.log('got whoot' + action.children);
+    return Object.assign({}, state, {
+      children: action.children
+    });
+
     return state;
 
 
