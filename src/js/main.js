@@ -133,8 +133,20 @@ function getData(dispatch) {
 
   // uggh no partial-application.
   // so we have the components...
+
+  var query = `
+      select 
+        rp.id as rp_id, 
+        p.name as person_name, 
+        o.name as organisation_name ,
+        p.id as person_id
+      from responsible_party rp 
+      join person p on p.id = rp.person_id
+      join organisation o on o.id = rp.organisation_id
+      order by rp.id
+  ` 
  
-  fetch('http://127.0.0.1:8081/myendpoint?query=' + encodeURIComponent('select * from responsible_party rp join person p on p.id = rp.person_id ' ))
+  fetch('http://127.0.0.1:8081/myendpoint?query=' + encodeURIComponent(query ))
     .then((response) => response.json())
     .then((json) => {
       console.log(json );
@@ -148,19 +160,38 @@ function getData(dispatch) {
 
 
 const Form1 = React.createClass({
+
+  componentDidMount() {
+  //componentDidMount() {
+    console.log('component did mount');
+    // dispatch( getData ); 
+  },
+
   render() {
 
   var dispatch = this.props.dispatch;
 
 // table...
 // uggh... 
+// we have closures.... to construct .... can we do this in a nested way?
 
   var itemNodes = this.props.items.map( (item, i) => {
+
+    // ok, we don't want the keys except for thead. 
+    var keys = Object.keys(item);
+    var values = keys.map(function(k) { return item[k]; });
+
+    var valueNodes = values.map( (value) => {
+      return (
+        <td>{ value} </td>
+      );
+    }); 
+
     return (
+    // TODO make it generic - hash to array
+    // can always filter....
       <tr key={i}>
-        <td>{ item.person_id } </td>
-        <td>{ item.name } </td>
-        <td>{ item.organisation_id } </td>
+        { valueNodes }
       </tr>
     );
   });
