@@ -136,6 +136,7 @@ function getData(dispatch) {
 
   var query = `
       select 
+        -- *
         rp.id as rp_id, 
         p.name as person_name, 
         o.name as organisation_name ,
