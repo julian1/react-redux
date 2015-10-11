@@ -20,28 +20,29 @@ import 'whatwg-fetch';
 function counter(state, action) {
   switch (action.type) {
 
-  case 'INITIAL_STATE':
-    return action.state;
+    case 'INITIAL_STATE':
+      // we load initial state on an action, so we include dispatch() in state 
+      return action.state;
 
-  case 'INCREMENT':
-    return Object.assign({}, state, {
-      value: state.value + 1
-    });
-  case 'RESET':
-    return Object.assign({}, state, {
-      value: 0
-    });
-  case 'WHOOT':
-    console.log( action.children);
-    return Object.assign({}, state, {
-      children: action.children
-    });
+    case 'INCREMENT':
+      return Object.assign({}, state, {
+        value: state.value + 1
+      });
+    case 'RESET':
+      return Object.assign({}, state, {
+        value: 0
+      });
+    case 'WHOOT':
+      console.log( action.children);
+      return Object.assign({}, state, {
+        children: action.children
+      });
 
-    return state;
+      return state;
 
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }
 
@@ -50,22 +51,14 @@ function counter(state, action) {
 let store = applyMiddleware(thunk)(createStore)(counter);
 
 
-let initialState = (
-  { 
-    value: 0 ,
-    inputHandler : (a => console.log("my handler " + a)),
-    children: []
-  });
+let initialState = ({ 
+  dispatch: (a) => store.dispatch(a),
+  value: 0, // change name counter...
+  inputHandler : (a) => console.log("my handler " + a),
+  children: []
+});
 
 
-
-// store.subscribe( () => console.log(store.getState()) );
-
-
-// jquery async ? time
-// this doSomething function can be put on the state
-
-// should make this dispatchable...
 
 function doSomething( dispatch ){
   dispatch({ type: 'INCREMENT' });
@@ -164,4 +157,11 @@ React.render((
   </Provider>
 ), document.body)
 
+// store.subscribe( () => console.log(store.getState()) );
+
+
+// jquery async ? time
+// this doSomething function can be put on the state
+
+// should make this dispatchable...
 
