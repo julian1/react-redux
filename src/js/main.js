@@ -15,9 +15,14 @@ import 'whatwg-fetch';
 // require('es6-promise').polyfill();
 // fetch(...);
 
+
 // function counter(state = 0, action) {
 function counter(state, action) {
   switch (action.type) {
+
+  case 'INITIAL_STATE':
+    return action.state;
+
   case 'INCREMENT':
     return Object.assign({}, state, {
       value: state.value + 1
@@ -40,6 +45,11 @@ function counter(state, action) {
   }
 }
 
+
+// let store = applyMiddleware(thunk)(createStore)(counter, initialState);
+let store = applyMiddleware(thunk)(createStore)(counter);
+
+
 let initialState = (
   { 
     value: 0 ,
@@ -47,7 +57,6 @@ let initialState = (
     children: []
   });
 
-let store = applyMiddleware(thunk)(createStore)(counter, initialState);
 
 
 // store.subscribe( () => console.log(store.getState()) );
@@ -59,40 +68,30 @@ let store = applyMiddleware(thunk)(createStore)(counter, initialState);
 // should make this dispatchable...
 
 function doSomething( dispatch ){
-
-  // console.log("doSomething dispatch " + dispatch );
-
-  // important we get dispatch given to us...
-  // alert("Boom!");
-                                            // not sure if its correct
   dispatch({ type: 'INCREMENT' });
-
   setTimeout( () => dispatch(doSomething), 1000);            // this just sides inside the redux forever...
-
-//  store.dispatch( doSomething);
 }
 
-// doSomething();
 
-store.dispatch({ type: 'INITIAL_STATE' });  // might be easier...
-//store.dispatch({ type: 'INCREMENT' });
-//store.dispatch({ type: 'INCREMENT' });
+store.dispatch({ type: 'INITIAL_STATE', state: initialState });  // might be easier...
 store.dispatch({ type: 'DECREMENT' });
 
+// initial...
 store.dispatch( doSomething );
 
 // should i be using store.dispatch() or have a globalish function dispatch() ?
-
 // ok, redux is neat.
 // ok, lets try to fatten the model up. 
 // should try to upgrade to react 0.14, which has support for refs  
+
+// IMPORTANT - we should pass dispatch explicity down as a prop - and avoid doing it for dumb-components. 
 
 // note that react-bootstrap is not an inline style approch.
 // inline styles with javascript attributes are supported in react. could just use this.
 
 // actually we want to put it on the props...
 
-function asyncAction( dispatch) {
+function asyncAction(dispatch) {
   // important we get dispatch given to us...
   // console.log("we got dispatch " + dispatch );
   
