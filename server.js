@@ -19,6 +19,13 @@ app.use(express.static(__dirname + '/dist'))
 app.use(express.static(__dirname + '/node_modules/bootstrap/dist'))
 
 
+app.get('/myendpoint', function(request, response){
+  
+  console.log(request.query); 
+
+  response.send( { whoot: "123" });
+})
+
 
 // handle every other route with index.html, which will contain
 // a script tag to your application's JavaScript file(s).
