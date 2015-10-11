@@ -33,7 +33,7 @@ app.get('/myendpoint', function(request, response){
       return console.error('error fetching client from pool', err);
     }
 
-    var query  = 'select json_agg( row_to_json(a)) as result from ( select * from responsible_party) as a';
+    var query  = 'select json_agg( row_to_json(a)) as result from ( ' + request.query.query + ') as a';
 
     // client.query('SELECT $1::int AS number', ['1'], function(err, result) {
 
@@ -47,12 +47,11 @@ app.get('/myendpoint', function(request, response){
   
       var result = result.rows[0].result;
 
-      console.log( result.constructor === String );
+/*      console.log( result.constructor === String );
       console.log( result.constructor === Array ); // it's been decomposed into an array
-
       console.log(result);
       //output: 1
-
+*/
       // response.send( { "result": result } );  // want to set the type to json...
       response.send( result  );  // want to set the type to json...
 
