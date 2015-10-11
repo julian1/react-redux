@@ -25,6 +25,7 @@
     "react-bootstrap": "0.25.2",
 
     "express": "4.13.3",
+    "pg": "4.4.2",
 
     "gulp": "^3.8.11",
     "browserify": "^11.1.0",
