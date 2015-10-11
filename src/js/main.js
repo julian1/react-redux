@@ -176,28 +176,23 @@ const Form1 = React.createClass({
 // we have closures.... to construct .... can we do this in a nested way?
 
 
-  var firstRowKeys = 
-    this.props.items.length > 0 ?   
-      Object.keys( this.props.items[0] ) 
-    :
-      []
-    ;
+  var firstRowKeys = this.props.items.length > 0 ? Object.keys(this.props.items[0]) : [];
 
-  var itemHeaders = firstRowKeys.map( function( key) { 
+  var itemHeaders = firstRowKeys.map( function( key, i) { 
       return (
-        <th>{ key} </th>
+        <th key={i}>{ key} </th>
       );
     }); 
-
+  // itemHeaders = 'whoot';
 
   var itemNodes = this.props.items.map( (item, i) => {
 
     // ok, we don't want the keys except for thead. 
     var keys = Object.keys(item);
     var values = keys.map(function(k) { return item[k]; });
-    var valueNodes = values.map( (value) => {
+    var valueNodes = values.map( (value, i) => {
       return (
-        <td>{ value} </td>
+        <td key={i} >{ value} </td>
       );
     }); 
 
@@ -214,14 +209,12 @@ const Form1 = React.createClass({
     <div>
       <Table striped bordered condensed hover>
           <thead>
-          <tr>
-
-          { itemHeaders } 
-          </tr>
+            <tr>
+              { itemHeaders } 
+            </tr>
           </thead>
-
           <tbody> 
-          { itemNodes  } 
+            { itemNodes } 
           </tbody> 
       </Table>
       <div>
