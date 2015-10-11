@@ -23,7 +23,7 @@ function reducer(state, action) {
       return Object.assign({}, state, {
         count: state.count + 1
       });
-    case 'RESET':
+    case 'RESET_COUNT':
       return Object.assign({}, state, {
         count: 0
       });
@@ -82,7 +82,7 @@ function asyncAction(dispatch) {
       console.log(json.data.children[0].data.author);
 
       dispatch({ type: 'GOT_CHILDREN', children: json.data.children });
-      // store.dispatch({ type: 'RESET' })
+      // store.dispatch({ type: 'RESET_COUNT' })
     })
     .catch((error) => {
       console.warn(error);
@@ -115,7 +115,7 @@ const Inbox = React.createClass({
         <input onChange={ e => this.props.inputHandler(e.target.value) } />  
       </div>
       <div>
-        <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch({ type: 'RESET' }) } >Save</Button>
+        <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch({ type: 'RESET_COUNT' }) } >Save</Button>
         <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch( asyncAction ) } >Async Save</Button>
       </div>
 
