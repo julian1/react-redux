@@ -7,17 +7,14 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider, connect } from "react-redux";
-
 import { Button, Alert } from 'react-bootstrap';
-// import { fetch, then } from 'whatwg-fetch';
 import 'whatwg-fetch';
 
 // require('es6-promise').polyfill();
 // fetch(...);
 
 
-// function counter(state = 0, action) {
-function counter(state, action) {
+function reducer(state, action) {
   switch (action.type) {
 
     case 'INITIAL_STATE':
@@ -26,11 +23,11 @@ function counter(state, action) {
 
     case 'INCREMENT':
       return Object.assign({}, state, {
-        value: state.value + 1
+        count: state.count + 1
       });
     case 'RESET':
       return Object.assign({}, state, {
-        value: 0
+        count: 0
       });
     case 'WHOOT':
       console.log( action.children);
@@ -47,27 +44,23 @@ function counter(state, action) {
 }
 
 
-// let store = applyMiddleware(thunk)(createStore)(counter, initialState);
-let store = applyMiddleware(thunk)(createStore)(counter);
-
+let store = applyMiddleware(thunk)(createStore)(reducer);
 
 let initialState = ({ 
   dispatch: (a) => store.dispatch(a),
-  value: 0, // change name counter...
+  count: 0, // change name counter...
   inputHandler : (a) => console.log("my handler " + a),
   children: []
 });
 
+store.dispatch({ type: 'INITIAL_STATE', state: initialState });
 
 
-function doSomething( dispatch ){
+function doSomething(dispatch) {
   dispatch({ type: 'INCREMENT' });
   setTimeout( () => dispatch(doSomething), 1000);            // this just sides inside the redux forever...
 }
 
-
-store.dispatch({ type: 'INITIAL_STATE', state: initialState });  // might be easier...
-store.dispatch({ type: 'DECREMENT' });
 
 // initial...
 store.dispatch( doSomething );
@@ -105,34 +98,36 @@ function asyncAction(dispatch) {
 const Inbox = React.createClass({
   render() {
 
-   var commentNodes = this.props.children.map( (comment, i) => {
-      return (
-        <div key={i}>
-          <span>{comment.data.title }</span>
-          <span> - </span>
-          <span>{comment.data.author}</span> 
-        </div>
-      );
-    });
+  var dispatch = this.props.dispatch;
 
+  var commentNodes = this.props.children.map( (comment, i) => {
     return (
-      <div>
-        <div>
-          <h2>Inbox</h2>
-          <h2>{this.props.value}</h2>
-        </div>
-        <div>
-          <input onChange={ e => this.props.inputHandler(e.target.value) } />  
-        </div>
-        <div>
-          <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch({ type: 'RESET' }) } >Save</Button>
-          <Button bsStyle="success" bsSize="medium" onClick={ () => store.dispatch( asyncAction ) } >Async Save</Button>
-        </div>
-
-        <div>{ commentNodes }</div>
-
+      <div key={i}>
+        <span>{comment.data.title }</span>
+        <span> - </span>
+        <span>{comment.data.author}</span> 
       </div>
-    )   
+    );
+  });
+
+  return (
+    <div>
+      <div>
+        <h2>Inbox</h2>
+        <h2>{this.props.count}</h2>
+      </div>
+      <div>
+        <input onChange={ e => this.props.inputHandler(e.target.value) } />  
+      </div>
+      <div>
+        <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch({ type: 'RESET' }) } >Save</Button>
+        <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch( asyncAction ) } >Async Save</Button>
+      </div>
+
+      <div>{ commentNodes }</div>
+
+    </div>
+  )   
   }
 })
 
