@@ -56,18 +56,32 @@ let store = applyMiddleware(thunk)(createStore)(counter, initialState);
 // jquery async ? time
 // this doSomething function can be put on the state
 
-function doSomething(){
-  store.dispatch({ type: 'INCREMENT' });
+// should make this dispatchable...
+
+function doSomething( dispatch ){
+
+  // console.log("doSomething dispatch " + dispatch );
+
+  // important we get dispatch given to us...
   // alert("Boom!");
-  setTimeout(doSomething, 1000);
+                                            // not sure if its correct
+  dispatch({ type: 'INCREMENT' });
+
+  setTimeout( () => dispatch(doSomething), 1000);            // this just sides inside the redux forever...
+
+//  store.dispatch( doSomething);
 }
 
-doSomething();
+// doSomething();
 
 store.dispatch({ type: 'INITIAL_STATE' });  // might be easier...
-store.dispatch({ type: 'INCREMENT' });
-store.dispatch({ type: 'INCREMENT' });
+//store.dispatch({ type: 'INCREMENT' });
+//store.dispatch({ type: 'INCREMENT' });
 store.dispatch({ type: 'DECREMENT' });
+
+store.dispatch( doSomething );
+
+// should i be using store.dispatch() or have a globalish function dispatch() ?
 
 // ok, redux is neat.
 // ok, lets try to fatten the model up. 
@@ -78,13 +92,16 @@ store.dispatch({ type: 'DECREMENT' });
 
 // actually we want to put it on the props...
 
-function asyncAction() {  
+function asyncAction( dispatch) {
+  // important we get dispatch given to us...
+  // console.log("we got dispatch " + dispatch );
+  
   fetch('https://www.reddit.com/r/worldnews.json')
     .then((response) => response.json())
     .then((json) => {
       console.log(json.data.children[0].data.author);
 
-      store.dispatch({ type: 'WHOOT', children: json.data.children });
+      dispatch({ type: 'WHOOT', children: json.data.children });
       // store.dispatch({ type: 'RESET' })
     })
     .catch((error) => {
