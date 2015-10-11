@@ -10,8 +10,10 @@ https://www.npmjs.com/package/redux-effects-fetch
 https://www.npmjs.com/package/whatwg-fetch
 https://github.com/github/fetch
 
-component dispatching
+component action dispatching
 https://github.com/rackt/redux/issues/134
+
+http://stackoverflow.com/questions/32461229/why-use-redux-over-facebook-flux
 
 
 es6, gulp, jsx, react, redux 
