@@ -44,15 +44,24 @@ app.get('/myendpoint', function(request, response){
       if(err) {
         return console.error('error running query', err);
       }
-      console.log(result.rows[0].result);
+  
+      var result = result.rows[0].result;
+
+      console.log( result.constructor === String );
+      console.log( result.constructor === Array ); // it's been decomposed into an array
+
+      console.log(result);
       //output: 1
+
+      // response.send( { "result": result } );  // want to set the type to json...
+      response.send( result  );  // want to set the type to json...
 
       // ok, so we have to ensure it's json and send it...
     });
   });
 
 
-  response.send( { whoot: "123" });
+  // response.send( { whoot: "123" });
 })
 
 
