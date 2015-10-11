@@ -7,7 +7,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider, connect } from "react-redux";
-import { Button, Alert } from 'react-bootstrap';
+import { Button, Alert, Table } from 'react-bootstrap';
 import 'whatwg-fetch';
 
 // require('es6-promise').polyfill();
@@ -20,19 +20,16 @@ function reducer(state, action) {
       // load initial state in an action, to allow including dispatch() binding in initial state 
       return action.state;
     case 'INCREMENT_COUNT':
-      return Object.assign({}, state, {
-        count: state.count + 1
-      });
+      return Object.assign({}, state, { count: state.count + 1 });
     case 'RESET_COUNT':
-      return Object.assign({}, state, {
-        count: 0
-      });
+      return Object.assign({}, state, { count: 0 });
     case 'GOT_CHILDREN':
-      console.log( action.children);
-      return Object.assign({}, state, {
-        children: action.children
-      });
-      return state;
+      // console.log( action.children);
+      return Object.assign({}, state, { children: action.children });
+
+    case 'GOT_RP_ITEMS':
+      return Object.assign({}, state, { items : action.items });
+
     default:
       return state;
   }
@@ -45,7 +42,8 @@ let initialState = ({
   dispatch: (a) => store.dispatch(a),
   count: 0, // change name counter...
   inputHandler : (a) => console.log("my handler " + a),
-  children: []
+  children: [],
+  items: []
 });
 
 store.dispatch({ type: 'INITIAL_STATE', state: initialState });
@@ -128,6 +126,63 @@ const Inbox = React.createClass({
 
 
 
+
+function getData(dispatch) {
+  // important we get dispatch given to us...
+  // console.log("we got dispatch " + dispatch );
+
+  // uggh no partial-application.
+  // so we have the components...
+ 
+  fetch('http://127.0.0.1:8081/myendpoint?query=' + encodeURIComponent('select * from responsible_party rp join person p on p.id = rp.person_id ' ))
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json );
+      dispatch({ type: 'GOT_RP_ITEMS', items : json });
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+}
+
+
+
+const Form1 = React.createClass({
+  render() {
+
+  var dispatch = this.props.dispatch;
+
+// table...
+// uggh... 
+
+  var itemNodes = this.props.items.map( (item, i) => {
+    return (
+      <tr key={i}>
+        <td>{ item.person_id } </td>
+        <td>{ item.name } </td>
+        <td>{ item.organisation_id } </td>
+      </tr>
+    );
+  });
+
+  return (
+    <div>
+      <Table striped bordered condensed hover>
+          <tbody> 
+          { itemNodes  } 
+          </tbody> 
+      </Table>
+      <div>
+        <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch( getData ) } >Async Save</Button>
+      </div>
+    </div>
+  )   
+  }
+})
+
+
+
+
 /*function mapStateToProps(state)  {
   return {
     value: state
@@ -138,7 +193,7 @@ const Inbox = React.createClass({
 
 var App = connect(
   state => state
-)(Inbox);
+)(Form1);
 
 
 React.render((
