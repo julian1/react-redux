@@ -16,12 +16,10 @@ import 'whatwg-fetch';
 
 function reducer(state, action) {
   switch (action.type) {
-
     case 'INITIAL_STATE':
-      // we load initial state on an action, so we include dispatch() in state 
+      // load initial state in an action, to allow including dispatch() binding in initial state 
       return action.state;
-
-    case 'INCREMENT':
+    case 'INCREMENT_COUNT':
       return Object.assign({}, state, {
         count: state.count + 1
       });
@@ -29,15 +27,12 @@ function reducer(state, action) {
       return Object.assign({}, state, {
         count: 0
       });
-    case 'WHOOT':
+    case 'GOT_CHILDREN':
       console.log( action.children);
       return Object.assign({}, state, {
         children: action.children
       });
-
       return state;
-
-
     default:
       return state;
   }
@@ -57,7 +52,7 @@ store.dispatch({ type: 'INITIAL_STATE', state: initialState });
 
 
 function doSomething(dispatch) {
-  dispatch({ type: 'INCREMENT' });
+  dispatch({ type: 'INCREMENT_COUNT' });
   setTimeout( () => dispatch(doSomething), 1000);            // this just sides inside the redux forever...
 }
 
@@ -86,7 +81,7 @@ function asyncAction(dispatch) {
     .then((json) => {
       console.log(json.data.children[0].data.author);
 
-      dispatch({ type: 'WHOOT', children: json.data.children });
+      dispatch({ type: 'GOT_CHILDREN', children: json.data.children });
       // store.dispatch({ type: 'RESET' })
     })
     .catch((error) => {
