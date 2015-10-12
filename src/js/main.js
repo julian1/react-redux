@@ -115,14 +115,21 @@ const Form2 = React.createClass({
   render() {
     var dispatch = this.props.dispatch;
 
-      console.log( 'Form2 - item '  );
-      console.log(  this.props.item );
- 
+    console.log( 'Form2 - item '  );
+    console.log(  this.props.item );
+
+
+    if(this.props.item === null) {
+      return ( null );
+    }
+
+    // ok, we need to deconstruct the array ... 
+    console.log(  this.props.item[0] );  
 
     return (
       <div>
         here
-        { this.props.item } 
+        { this.props.item[0].person_name } 
       </div>
     )
     }
