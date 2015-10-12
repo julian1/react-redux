@@ -114,6 +114,11 @@ const Form2 = React.createClass({
 
   render() {
     var dispatch = this.props.dispatch;
+
+      console.log( 'Form2 - item '  );
+      console.log(  this.props.item );
+ 
+
     return (
       <div>
         here
@@ -187,7 +192,7 @@ const Page = React.createClass({
     // change name items to list?
     return (
       <div>
-        { <Form2 dispatch={this.props.dispatch} items={this.props.item }  /> }
+        { <Form2 dispatch={this.props.dispatch} item={this.props.item }  /> }
         { <Form1 dispatch={this.props.dispatch} items={this.props.items }  /> }
       </div>
     )
