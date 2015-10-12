@@ -11,11 +11,14 @@ var path = require('path');
 // var fs = require('fs');
 var pg = require('pg');
 
+var compress = require('compression');
 
 // https://github.com/rackt/react-router/blob/master/docs/guides/basics/Histories.md
 
 // serves files index.html etc
 // app.use('/', express.static(path.join(__dirname, 'dist')));
+
+app.use(compress()); 
 
 // serve static assets normally
 app.use(express.static(__dirname + '/dist'))
