@@ -23,6 +23,11 @@ function reducer(state, action) {
     case 'GOT_RP_ITEMS':
       return Object.assign({}, state, { items : action.items });
 
+    case 'GOT_RP_ACTIVE_ITEM':
+      console.log( 'whoot got item '  );
+      console.log(  action.item );
+      return Object.assign({}, state, { item : action.item });
+
     default:
       return state;
   }
@@ -33,12 +38,26 @@ let store = applyMiddleware(thunk)(createStore)(reducer);
 
 let initialState = ({
   dispatch: (a) => store.dispatch(a),
-  items: []
+  items: [],
+  item: null
 });
 
 
 
-function getData(dispatch) {
+function doQuery(query, completion) {
+  fetch('http://127.0.0.1:8081/myendpoint?query=' + encodeURIComponent(query ))
+    .then((response) => response.json())
+    .then((json) => {
+      // console.log(json );
+      // dispatch({ type: 'GOT_RP_ITEMS', items : json });
+      completion( json);
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+}
+
+function getItems(dispatch) {
   var query = `
       select
         -- *
@@ -51,15 +70,41 @@ function getData(dispatch) {
       join organisation o on o.id = rp.organisation_id
       order by rp.id
   `
-  fetch('http://127.0.0.1:8081/myendpoint?query=' + encodeURIComponent(query ))
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json );
-      dispatch({ type: 'GOT_RP_ITEMS', items : json });
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
+  doQuery(query, json => dispatch({ type: 'GOT_RP_ITEMS', items : json }) );
+} 
+/* 
+  - it would be nice if we could bind some parameters into this thing... 
+  -  
+*/
+
+// 
+// uggh... we want to be able to send this with an argument for the specific item. 
+// alternatively we can access the store in the state to find out which item...
+
+// Or we code the function at the dispatch site 
+
+// getActiveItem
+
+// dispatch => getActiveItem(dispatch, 1) 
+
+function getActiveItem(dispatch, id ) {
+
+  // can use like this,
+  // dispatch => getActiveItem(dispatch, 1) 
+  var query = `
+      select
+        -- *
+        rp.id as rp_id,
+        p.name as person_name,
+        o.name as organisation_name ,
+        p.id as person_id
+      from responsible_party rp
+      join person p on p.id = rp.person_id
+      join organisation o on o.id = rp.organisation_id
+
+      where rp.id = 2 
+  `
+  doQuery(query, json => dispatch({ type: 'GOT_RP_ACTIVE_ITEM', item : json }) );
 }
 
 
@@ -71,7 +116,8 @@ const Form2 = React.createClass({
     var dispatch = this.props.dispatch;
     return (
       <div>
-        Form 2
+        here
+        { this.props.item } 
       </div>
     )
     }
@@ -127,7 +173,7 @@ const Form1 = React.createClass({
             </tbody>
         </Table>
         <div>
-          <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch( getData ) } >Async Save</Button>
+          <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch( getItems ) } >Async Save</Button>
         </div>
       </div>
     )
@@ -138,11 +184,11 @@ const Form1 = React.createClass({
 const Page = React.createClass({
 
   render() {
-
+    // change name items to list?
     return (
       <div>
-        { <Form2 dispatch={this.props.dispatch}  items={this.props.items}  /> }
-        { <Form1 dispatch={this.props.dispatch}  items={this.props.items}  /> }
+        { <Form2 dispatch={this.props.dispatch} items={this.props.item }  /> }
+        { <Form1 dispatch={this.props.dispatch} items={this.props.items }  /> }
       </div>
     )
     }
@@ -152,7 +198,9 @@ const Page = React.createClass({
 // seems to be an issue with the render ... items... 
 
 store.dispatch({ type: 'INITIAL_STATE', state: initialState });
-store.dispatch( getData );
+store.dispatch( getItems );
+
+store.dispatch( dispatch => getActiveItem(dispatch, 1) );
 
 var App = connect(
   state => state
