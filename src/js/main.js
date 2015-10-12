@@ -17,7 +17,7 @@ import 'whatwg-fetch';
 function reducer(state, action) {
   switch (action.type) {
     case 'INITIAL_STATE':
-      // load initial state in an action, to allow including dispatch() binding in initial state 
+      // load initial state in an action, to allow including dispatch() binding in initial state
       return action.state;
 
     case 'GOT_RP_ITEMS':
@@ -31,36 +31,26 @@ function reducer(state, action) {
 
 let store = applyMiddleware(thunk)(createStore)(reducer);
 
-let initialState = ({ 
+let initialState = ({
   dispatch: (a) => store.dispatch(a),
   items: []
 });
 
-store.dispatch({ type: 'INITIAL_STATE', state: initialState });
-
-
 
 
 function getData(dispatch) {
-  // important we get dispatch given to us...
-  // console.log("we got dispatch " + dispatch );
-
-  // uggh no partial-application.
-  // so we have the components...
-
   var query = `
-      select 
+      select
         -- *
-        rp.id as rp_id, 
-        p.name as person_name, 
+        rp.id as rp_id,
+        p.name as person_name,
         o.name as organisation_name ,
         p.id as person_id
-      from responsible_party rp 
+      from responsible_party rp
       join person p on p.id = rp.person_id
       join organisation o on o.id = rp.organisation_id
       order by rp.id
-  ` 
- 
+  `
   fetch('http://127.0.0.1:8081/myendpoint?query=' + encodeURIComponent(query ))
     .then((response) => response.json())
     .then((json) => {
@@ -71,6 +61,22 @@ function getData(dispatch) {
       console.warn(error);
     });
 }
+
+
+
+
+const Form2 = React.createClass({
+
+  render() {
+    var dispatch = this.props.dispatch;
+    return (
+      <div>
+        Form 2
+      </div>
+    )
+    }
+})
+
 
 
 const Form1 = React.createClass({
@@ -84,22 +90,22 @@ const Form1 = React.createClass({
     var dispatch = this.props.dispatch;
 
     var firstRowKeys = this.props.items.length > 0 ? Object.keys(this.props.items[0]) : [];
-    var rowHeaders = firstRowKeys.map( function( key, i) { 
+    var rowHeaders = firstRowKeys.map( function( key, i) {
         return (
           <th key={i}>{ key} </th>
         );
-      }); 
+      });
 
     var rows = this.props.items.map( (item, i) => {
 
-      // ok, we don't want the keys except for thead. 
+      // ok, we don't want the keys except for thead.
       var keys = Object.keys(item);
       var values = keys.map(function(k) { return item[k]; });
       var valueNodes = values.map( (value, i) => {
         return (
           <td key={i} >{ value} </td>
         );
-      }); 
+      });
 
       return (
         <tr key={i}>
@@ -113,26 +119,44 @@ const Form1 = React.createClass({
         <Table striped bordered condensed hover>
             <thead>
               <tr>
-                { rowHeaders } 
+                { rowHeaders }
               </tr>
             </thead>
-            <tbody> 
-              { rows } 
-            </tbody> 
+            <tbody>
+              { rows }
+            </tbody>
         </Table>
         <div>
           <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch( getData ) } >Async Save</Button>
         </div>
       </div>
-    )   
+    )
     }
-})
+});
+
+// change name to view...
+const Page = React.createClass({
+
+  render() {
+
+    return (
+      <div>
+        { <Form2 dispatch={this.props.dispatch}  items={this.props.items}  /> }
+        { <Form1 dispatch={this.props.dispatch}  items={this.props.items}  /> }
+      </div>
+    )
+    }
+});
 
 
+// seems to be an issue with the render ... items... 
+
+store.dispatch({ type: 'INITIAL_STATE', state: initialState });
+store.dispatch( getData );
 
 var App = connect(
   state => state
-)(Form1);
+)(Page);
 
 
 React.render((
