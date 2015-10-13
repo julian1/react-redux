@@ -14,7 +14,7 @@ component action dispatching
 https://github.com/rackt/redux/issues/134
 
 http://stackoverflow.com/questions/32461229/why-use-redux-over-facebook-flux
-
+http://rackt.github.io/redux/docs/advanced/AsyncActions.html
 
 es6, gulp, jsx, react, redux 
 
