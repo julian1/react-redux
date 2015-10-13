@@ -57,7 +57,12 @@ function doQuery(query, completion) {
     });
 }
 
-function getItems(dispatch) {
+
+function getItems(dispatch, getState ) {
+  // getState should return the state
+  console.log("****");
+  console.log(getState());
+  
   var query = `
       select
         -- *
