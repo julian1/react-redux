@@ -125,6 +125,8 @@ const Form2 = React.createClass({
     console.log( 'Form2 - item '  );
     console.log(  item );
 
+    console.log( item  );
+
     return (
       <div>
         here
@@ -146,14 +148,16 @@ const Form1 = React.createClass({
 
     var dispatch = this.props.dispatch;
 
-    var firstRowKeys = this.props.items.length > 0 ? Object.keys(this.props.items[0]) : [];
+    var items = this.props.items;
+
+    var firstRowKeys = items.length > 0 ? Object.keys(items[0]) : [];
     var rowHeaders = firstRowKeys.map( function( key, i) {
         return (
           <th key={i}>{ key} </th>
         );
       });
 
-    var rows = this.props.items.map( (item, i) => {
+    var rows = items.map( (item, i) => {
 
       // ok, we don't want the keys except for thead.
       var keys = Object.keys(item);
