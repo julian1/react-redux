@@ -7,7 +7,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider, connect } from "react-redux";
-import { Button, Alert, Table } from 'react-bootstrap';
+import { Button, Alert, Table, Input } from 'react-bootstrap';
 import 'whatwg-fetch';
 
 // require('es6-promise').polyfill();
@@ -63,7 +63,7 @@ function getItems(dispatch, getState ) {
   // getState should return the state
   // console.log("****");
   // console.log(getState());
-  
+
   var query = `
       select
         -- *
@@ -77,26 +77,26 @@ function getItems(dispatch, getState ) {
       order by rp.id
   `
   doQuery(query, json => dispatch({ type: 'GOT_RP_ITEMS', items : json }) );
-} 
-/* 
-  - it would be nice if we could bind some parameters into this thing... 
-  -  
+}
+/*
+  - it would be nice if we could bind some parameters into this thing...
+  -
 */
 
-// 
-// uggh... we want to be able to send this with an argument for the specific item. 
+//
+// uggh... we want to be able to send this with an argument for the specific item.
 // alternatively we can access the store in the state to find out which item...
 
-// Or we code the function at the dispatch site 
+// Or we code the function at the dispatch site
 
 // getActiveItem
 
-// dispatch => getActiveItem(dispatch, 1) 
+// dispatch => getActiveItem(dispatch, 1)
 
 function getActiveItem(dispatch, id ) {
 
   // can use like this,
-  // dispatch => getActiveItem(dispatch, 1) 
+  // dispatch => getActiveItem(dispatch, 1)
   var query = `
       select
         -- *
@@ -108,7 +108,7 @@ function getActiveItem(dispatch, id ) {
       join person p on p.id = rp.person_id
       join organisation o on o.id = rp.organisation_id
 
-      where rp.id = 2 
+      where rp.id = 2
   `
   doQuery(query, json => dispatch({ type: 'GOT_RP_ACTIVE_ITEM', item : json }) );
 }
@@ -124,17 +124,29 @@ const Form2 = React.createClass({
 
     var keys = item ? Object.keys(item) : [];
 
-    console.log( 'Form2 - item '  );
-    console.log(  item );
-    console.log( item  );
+    /* change to input 
 
+        <div class="input-group">
+        </div>
+    */
     return (
       <div>
-        here
-        { keys.map( (key,i) => <div>{key} - { item[key] } </div>) 
-
-        } 
-        { item ? item.person_name : '' } 
+        <Table striped bordered condensed hover>
+          <tbody>
+            {
+                keys.map((key,i) =>
+                  <tr>
+                    <td>{key}</td> 
+                    <td>{item[key]}</td>    
+                    <td> 
+                        <Input type="text" class="form-control" placeholder={item[key]} aria-describedby="basic-addon1"/>
+                    </td>
+                  </tr>
+                )
+            }
+          </tbody>
+        </Table>
+        { item ? item.person_name : '' }
       </div>
     )
     }
@@ -214,7 +226,7 @@ const Page = React.createClass({
 });
 
 
-// seems to be an issue with the render ... items... 
+// seems to be an issue with the render ... items...
 
 store.dispatch({ type: 'INITIAL_STATE', state: initialState });
 store.dispatch( getItems );
