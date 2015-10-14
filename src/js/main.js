@@ -26,7 +26,8 @@ function reducer(state, action) {
     case 'GOT_RP_ACTIVE_ITEM':
       console.log( 'whoot got item '  );
       console.log(  action.item );
-      return Object.assign({}, state, { item : action.item });
+      // all results in postgres get returned in an array
+      return Object.assign({}, state, { item : action.item[0] });
 
     default:
       return state;
@@ -60,8 +61,8 @@ function doQuery(query, completion) {
 
 function getItems(dispatch, getState ) {
   // getState should return the state
-  console.log("****");
-  console.log(getState());
+  // console.log("****");
+  // console.log(getState());
   
   var query = `
       select
@@ -119,22 +120,15 @@ const Form2 = React.createClass({
 
   render() {
     var dispatch = this.props.dispatch;
+    var item = this.props.item;
 
     console.log( 'Form2 - item '  );
-    console.log(  this.props.item );
-
-
-    if(this.props.item === null) {
-      return ( null );
-    }
-
-    // ok, we need to deconstruct the array ... 
-    console.log(  this.props.item[0] );  
+    console.log(  item );
 
     return (
       <div>
         here
-        { this.props.item[0].person_name } 
+        { item ? item.person_name : '' } 
       </div>
     )
     }
