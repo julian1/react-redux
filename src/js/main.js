@@ -122,14 +122,18 @@ const Form2 = React.createClass({
     var dispatch = this.props.dispatch;
     var item = this.props.item;
 
+    var keys = item ? Object.keys(item) : [];
+
     console.log( 'Form2 - item '  );
     console.log(  item );
-
     console.log( item  );
 
     return (
       <div>
         here
+        { keys.map( (key,i) => <div>{key} - { item[key] } </div>) 
+
+        } 
         { item ? item.person_name : '' } 
       </div>
     )
