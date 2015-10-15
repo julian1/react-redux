@@ -7,7 +7,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider, connect } from "react-redux";
-import { Button, Alert, Table, Input } from 'react-bootstrap';
+import { Button, Alert, Table, Input, Panel } from 'react-bootstrap';
 import 'whatwg-fetch';
 
 // require('es6-promise').polyfill();
@@ -130,7 +130,7 @@ const Form2 = React.createClass({
         </div>
     */
     return (
-      <div>
+      <Panel>
         <Table striped bordered condensed hover>
           <tbody>
             {
@@ -147,7 +147,7 @@ const Form2 = React.createClass({
           </tbody>
         </Table>
         { item ? item.person_name : '' }
-      </div>
+      </Panel>
     )
     }
 })
@@ -192,7 +192,7 @@ const Form1 = React.createClass({
     });
 
     return (
-      <div>
+      <Panel>
         <Table striped bordered condensed hover>
             <thead>
               <tr>
@@ -206,7 +206,7 @@ const Form1 = React.createClass({
         <div>
           <Button bsStyle="success" bsSize="medium" onClick={ () => dispatch( getItems ) } >Async Save</Button>
         </div>
-      </div>
+      </Panel>
     )
     }
 });
