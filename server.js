@@ -18,7 +18,7 @@ var compress = require('compression');
 // serves files index.html etc
 // app.use('/', express.static(path.join(__dirname, 'dist')));
 
-app.use(compress()); 
+app.use(compress());  // gzip
 
 // serve static assets normally
 app.use(express.static(__dirname + '/dist'))
@@ -56,7 +56,12 @@ app.get('/myendpoint', function(request, response){
       //output: 1
 */
       // response.send( { "result": result } );  // want to set the type to json...
-      response.send( result  );  // want to set the type to json...
+//      response.send( result  );  // want to set the type to json...
+
+      // https://github.com/brianc/node-postgres/wiki/FAQ
+      var json = JSON.stringify(result);
+      response.writeHead(200, {'content-type':'application/json', 'content-length':Buffer.byteLength(json)}); 
+      response.end(json);
 
       // ok, so we have to ensure it's json and send it...
     });
