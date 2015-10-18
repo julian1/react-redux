@@ -12,7 +12,7 @@ pg.defaults.poolSize = 10;
 function test1() { 
 
   var conString = "postgres://meteo:meteo@127.0.0.1/contr_vocab_db?ssl=true";
-  pg.connect(conString, function(err, client, done) {
+  pg.connect(conString, (err, client, done) => {
     if(err) {
       console.error('error fetching client from pool', err);
     }
@@ -45,6 +45,8 @@ var t = {
   ref_sub: 'name',          
   relation: 'organisation' ,
 };
+
+console.log( ` ${ t.name }` );
 
 // es6
 
