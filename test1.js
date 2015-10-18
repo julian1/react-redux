@@ -1,5 +1,6 @@
 
 // es6 on the client...
+// we need a cleaner way to join this stuff up
 
 var pg = require('pg');
 
@@ -17,7 +18,6 @@ function test1() {
 
     client.query( query , function(err, result) {
       // call `done()` to release the client back to the pool
-      // this is just horrible...
       done();
 
       if(err) {
