@@ -26,10 +26,16 @@ function test1() {
       var result_ = result.rows[0].result;
       console.log( result_ );
       
-      process.exit();
+      // process.exit();
     });
   });
 }
 
+// so what do we do here... and what are the functions...
+
+
 test1();
+
+// close pool which will, finish everything
+pg.end();
 
