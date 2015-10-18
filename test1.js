@@ -66,19 +66,19 @@ const m = [ t, p ];
 
 // might be easier
 // ok, can we change this  
-
-//     ${t.for_relation}.${ t.for_sub } as ${ t.name} 
-
+//  ${t.for_relation}.${ t.for_sub } as ${ t.name} 
 //  join ${t.for_relation} on ${t.for_relation}.id = rp.${ t.field} 
-
 // 
 
 const query = `
   select 
-    ${ m.map( key => key.for_relation + '.' + key.for_sub + ' as ' + key.name).reduce((l, r) => l + ',\n' +  r)   }
+    ${ m.map( key => key.for_relation + '.' + key.for_sub + ' as ' + key.name)
+        .reduce((l, r) => l + ',\n' +  r)   
+    }
   from responsible_party rp
-
-    ${ m.map( key => ' join ' + key.for_relation + ' on ' + key.for_relation + '.id = rp. ' + key.field ) .reduce((l, r) => l + '\n' +  r)  }
+    ${ m.map( key => ' join ' + key.for_relation + ' on ' + key.for_relation + '.id = rp. ' + key.field ) 
+    .reduce((l, r) => l + '\n' +  r)  
+    }
 `;
 
 console.log( '' + query );
