@@ -4,6 +4,10 @@
 
 var pg = require('pg');
 
+pg.defaults.poolSize = 10;
+
+// are we going to be text expansion?
+// or argument expansion?
 
 function test1() { 
 
@@ -33,6 +37,16 @@ function test1() {
 
 // so what do we do here... and what are the functions...
 
+
+// for responsible party
+var t = {
+  name:  'organisation_name',
+  ref_field: 'organisation_id',
+  ref_sub: 'name',          
+  relation: 'organisation' ,
+};
+
+// es6
 
 test1();
 

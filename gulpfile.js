@@ -56,10 +56,33 @@ gulp.task('bundle', function(){
       console.error(e.codeFrame);
       this.emit('end');
     })
-
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./dist'));
 });
+
+
+
+gulp.task('test1', function(){
+  var b = browserify();
+  b.transform({ global: true }, babel ); // use the reactify transform
+  b.add('./test1.js');
+
+  var deps = ['pg' ];
+  b.external(deps);
+
+  return b.bundle()
+    // .on('error', handleErrors)
+    .on('error', function(e) {
+      console.error(e.message);
+      console.error(e.loc);
+      console.error(e.codeFrame);
+      this.emit('end');
+    })
+    .pipe(source('test1.js'))
+    .pipe(gulp.dest('./dist'));
+});
+
+
 
 
 gulp.task('copy', function() {
